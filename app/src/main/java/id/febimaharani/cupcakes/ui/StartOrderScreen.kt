@@ -27,7 +27,7 @@ import id.febimaharani.cupcakes.data.DataSource
 import id.febimaharani.cupcakes.ui.theme.CupcakeTheme
 
 @Composable
-fun StartOrderScreen(
+fun StartOrderScreen( // terdapat column, spacer, image, 
     quantityOptions: List<Pair<Int, Int>>,
     onNextButtonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -42,7 +42,7 @@ fun StartOrderScreen(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
         ) {
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
-            Image(
+            Image( // foto cupcake
                 painter = painterResource(R.drawable.cupcakes),
                 contentDescription = null,
                 modifier = Modifier.width(300.dp)
@@ -61,9 +61,9 @@ fun StartOrderScreen(
                 dimensionResource(id = R.dimen.padding_medium)
             )
         ) {
-            quantityOptions.forEach { item ->
+            quantityOptions.forEach { item -> // untuk dari bagian 1- selesai
                 SelectQuantityButton(
-                    labelResourceId = item.first,
+                    labelResourceId = item.first, 
                     onClick = { onNextButtonClicked(item.second) },
                     modifier = Modifier.fillMaxWidth(),
                 )
