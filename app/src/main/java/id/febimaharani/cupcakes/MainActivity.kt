@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import id.febimaharani.cupcakes.ui.theme.CupcakeTheme
 
+// hanya untuk memanggil fungsi composable
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
