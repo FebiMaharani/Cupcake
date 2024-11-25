@@ -71,16 +71,17 @@ fun CupcakeAppBar(
     )
 }
 
+// fungsi utama aplikasi
 @Composable
-fun CupcakeApp(
+fun CupcakeApp( // yang terdapat di navigation host
     viewModel: OrderViewModel = viewModel(),
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController() // navigation host
 ) {
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
     // Get the name of the current screen
     val currentScreen = CupcakeScreen.valueOf(
-        backStackEntry?.destination?.route ?: CupcakeScreen.Start.name
+        backStackEntry?.destination?.route ?: CupcakeScreen.Start.name 
     )
 
     Scaffold(
@@ -96,17 +97,17 @@ fun CupcakeApp(
 
         NavHost(
             navController = navController,
-            startDestination = CupcakeScreen.Start.name,
+            startDestination = CupcakeScreen.Start.name, // titik tampilan awal 
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
         ) {
             composable(route = CupcakeScreen.Start.name) {
-                StartOrderScreen(
-                    quantityOptions = DataSource.quantityOptions,
-                    onNextButtonClicked = {
-                        viewModel.setQuantity(it)
+                StartOrderScreen( 
+                    quantityOptions = DataSource.quantityOptions, // mengambil data
+                    onNextButtonClicked = { 
+                        viewModel.setQuantity(it) // business logic
                         navController.navigate(CupcakeScreen.Flavor.name)
                     },
                     modifier = Modifier
