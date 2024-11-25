@@ -62,7 +62,7 @@ fun StartOrderScreen( // terdapat column, spacer, image,
             )
         ) {
             quantityOptions.forEach { item -> // untuk dari bagian 1- selesai
-                SelectQuantityButton(
+                SelectQuantityButton( 
                     labelResourceId = item.first, 
                     onClick = { onNextButtonClicked(item.second) },
                     modifier = Modifier.fillMaxWidth(),
