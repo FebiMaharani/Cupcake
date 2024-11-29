@@ -18,14 +18,11 @@ import org.junit.Test
 
 class CupcakeOrderScreenTest {
 
-    /**
-     * Note: To access to an empty activity, the code uses ComponentActivity instead of
-     * MainActivity.
-     */
+    // pengganti MainActivity
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private val fakeOrderUiState = OrderUiState(
+    private val fakeOrderUiState = OrderUiState( // uji objek OrderUiState 
         quantity = 6,
         flavor = "Vanilla",
         date = "Wed Jul 21",
@@ -33,106 +30,92 @@ class CupcakeOrderScreenTest {
         pickupOptions = listOf()
     )
 
-    /**
-     * When quantity options are provided to StartOrderScreen, the options are displayed on the
-     * screen.
-     */
+    // menampilkan opsi jumlah ke StartOrderScreen
     @Test
-    fun startOrderScreen_verifyContent() {
+    fun startOrderScreen_verifyContent() { // memuat StartOrderScreen
 
-        // When StartOrderScreen is loaded
         composeTestRule.setContent {
-            StartOrderScreen(
-                quantityOptions = DataSource.quantityOptions,
-                onNextButtonClicked = {}
+            StartOrderScreen( // layar memulai order
+                quantityOptions = DataSource.quantityOptions, // mengambil data jumlah dari DataSource
+                onNextButtonClicked = {} //  memanggil kembali saat klik tombol next
             )
         }
 
-        // Then all the options are displayed on the screen.
+        // menampilkan semua opsi
         DataSource.quantityOptions.forEach {
-            composeTestRule.onNodeWithStringId(it.first).assertIsDisplayed()
+            composeTestRule.onNodeWithStringId(it.first).assertIsDisplayed() // verifikasi setiap opsi ditampilkan
         }
     }
 
-    /**
-     * When list of options and subtotal are provided to SelectOptionScreen,the options and subtotal
-     * are displayed on the screen and the next button is disabled.
-     */
+    // menonaktifkan tombol next saat selectOptionScreen, opsi dan subtotal tampil
     @Test
     fun selectOptionScreen_verifyContent() {
-        // Given list of options
+        // daftar pilihan rasa
         val flavors = listOf("Vanilla", "Chocolate", "Hazelnut", "Cookie", "Mango")
-        // And subtotal
+        // subtotal dan harga
         val subtotal = "$100"
 
-        // When SelectOptionScreen is loaded
         composeTestRule.setContent {
-            SelectOptionScreen(subtotal = subtotal, options = flavors)
+            SelectOptionScreen(subtotal = subtotal, options = flavors) // menampilkan subtotal dan opsi ke layar pilihan
         }
 
-        // Then all the options are displayed on the screen.
+        // menampilkan semua opsi.
         flavors.forEach { flavor ->
-            composeTestRule.onNodeWithText(flavor).assertIsDisplayed()
+            composeTestRule.onNodeWithText(flavor).assertIsDisplayed() // verifikasi rasa ditampilkan
         }
 
-        // And then the subtotal is displayed correctly.
+        // menampilkan subtotal dengan benar.
         composeTestRule.onNodeWithText(
             composeTestRule.activity.getString(
                 R.string.subtotal_price,
                 subtotal
             )
-        ).assertIsDisplayed()
+        ).assertIsDisplayed() // verifikasi tampilan subtotal
 
-        // And then the next button is disabled
-        composeTestRule.onNodeWithStringId(R.string.next).assertIsNotEnabled()
+        // menonaktifkan tombol next
+        composeTestRule.onNodeWithStringId(R.string.next).assertIsNotEnabled() // verifikasi tombol next nonaktif
     }
 
-    /**
-     * When list of options and subtotal are provided to SelectOptionScreen, and one of the option
-     * is selected, then the next button is enabled.
-     */
+    // menngaktifkan tombool next ketika daftar opsi dan subtotal ditampilkan
     @Test
     fun selectOptionScreen_optionSelected_NextButtonEnabled() {
-        // Given list of options
+        // memberikan daftar pillihan rasa
         val flavours = listOf("Vanilla", "Chocolate", "Hazelnut", "Cookie", "Mango")
-        // And sub total
+        // subtotal dan harga
         val subTotal = "$100"
 
-        // When SelectOptionScreen is loaded
+        // SelectOptionScreen 
         composeTestRule.setContent {
-            SelectOptionScreen(subtotal = subTotal, options = flavours)
+            SelectOptionScreen(subtotal = subTotal, options = flavours) // menampilkan subtotal dan opsi ke layar pilihan
         }
 
-        // And one option is selected
-        composeTestRule.onNodeWithText("Vanilla").performClick()
+        // satu pilihan dipilih
+        composeTestRule.onNodeWithText("Vanilla").performClick() // klik rasa vanila
 
-        // Then the next button is disabled
-        composeTestRule.onNodeWithStringId(R.string.next).assertIsEnabled()
+        // tombol next aktif
+        composeTestRule.onNodeWithStringId(R.string.next).assertIsEnabled() // verifikasi tombol next aktif 
     }
 
-    /**
-     * When a OrderUiState is provided to Summary Screen, then the flavor, date and subtotal is
-     * displayed on the screen.
-     */
+    // menampilkan orderUiState
     @Test
     fun summaryScreen_verifyContentDisplay() {
-        // When Summary Screen is loaded
+        // memuat Summary Screen
         composeTestRule.setContent {
             OrderSummaryScreen(
-                orderUiState = fakeOrderUiState,
-                onCancelButtonClicked = {},
-                onSendButtonClicked = { _, _ -> },
+                orderUiState = fakeOrderUiState, // menyediakan pilihan pesanan ke ringkasan pesanan
+                onCancelButtonClicked = {}, 
+                onSendButtonClicked = { _, _ -> }, // callback kosong saat batal diklik
             )
         }
 
-        // Then the UI is updated correctly.
-        composeTestRule.onNodeWithText(fakeOrderUiState.flavor).assertIsDisplayed()
-        composeTestRule.onNodeWithText(fakeOrderUiState.date).assertIsDisplayed()
+        // memberbarui UI
+        composeTestRule.onNodeWithText(fakeOrderUiState.flavor).assertIsDisplayed() // Verifikasi rasa
+        composeTestRule.onNodeWithText(fakeOrderUiState.date).assertIsDisplayed() // verifikasi tanggal
         composeTestRule.onNodeWithText(
             composeTestRule.activity.getString(
                 R.string.subtotal_price,
                 fakeOrderUiState.price
             )
-        ).assertIsDisplayed()
+        ).assertIsDisplayed() // verifikasi total harga
     }
 }
