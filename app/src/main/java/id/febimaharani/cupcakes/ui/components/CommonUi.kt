@@ -7,14 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import id.febimaharani.cupcakes.R
 
-/**
- * Composable that displays formatted [price] that will be formatted and displayed on screen
- */
+// menampilkan label harga
 @Composable
 fun FormattedPriceLabel(subtotal: String, modifier: Modifier = Modifier) {
     Text(
-        text = stringResource(R.string.subtotal_price, subtotal),
-        modifier = modifier,
-        style = MaterialTheme.typography.headlineSmall
+        text = stringResource(R.string.subtotal_price, subtotal), // ambil dan format string untuk subtotal
+        modifier = modifier, 
+        style = MaterialTheme.typography.headlineSmall // menggunakan teks dengan tema material 
     )
 }
