@@ -28,75 +28,74 @@ import id.febimaharani.cupcakes.ui.theme.CupcakeTheme
 
 @Composable
 fun SelectOptionScreen(
-    subtotal: String,
-    options: List<String>,
-    onSelectionChanged: (String) -> Unit = {},
-    onCancelButtonClicked: () -> Unit = {},
-    onNextButtonClicked: () -> Unit = {},
+    subtotal: String, // total harga yang tampil
+    options: List<String>, // opsi yang dipilih pengguna
+    onSelectionChanged: (String) -> Unit = {}, // callback saat berubah pilihan. default=koksoong
+    onCancelButtonClicked: () -> Unit = {}, // callback saat batal klik
+    onNextButtonClicked: () -> Unit = {}, // callback ketika klik berikutnya
     modifier: Modifier = Modifier
 ) {
-    var selectedValue by rememberSaveable { mutableStateOf("") }
+    var selectedValue by rememberSaveable { mutableStateOf("") } // menyimpan nilai yang dipilih
 
     Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.SpaceBetween
+        modifier = modifier, // menerapkan modifier ke kolom utama
+        verticalArrangement = Arrangement.SpaceBetween //menyusun elemen vertikal 
     ) {
-        Column(modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))) {
-            options.forEach { item ->
+        Column(modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))) { 
+            options.forEach { item -> // iterasi setiap opsi dalam daftar opsi
                 Row(
-                    modifier = Modifier.selectable(
-                        selected = selectedValue == item,
+                    modifier = Modifier.selectable( 
+                        selected = selectedValue == item, // menentukan opsi saat ini
                         onClick = {
-                            selectedValue = item
-                            onSelectionChanged(item)
+                            selectedValue = item // update nilai yang dipilih
+                            onSelectionChanged(item) // memanggil kembali dengan nilai baru
                         }
                     ),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically // elemen tampil secara vertikal
                 ) {
-                    RadioButton(
-                        selected = selectedValue == item,
+                    RadioButton( // menampilkan tombol di samping teks opsi.
+                        selected = selectedValue == item, // menentukan tombol yang dipilih
                         onClick = {
-                            selectedValue = item
-                            onSelectionChanged(item)
+                            selectedValue = item // update nilai yang dipilih
+                            onSelectionChanged(item) // memanggil kembali nilai baru
                         }
                     )
-                    Text(item)
+                    Text(item) 
                 }
             }
-            Divider(
-                thickness = dimensionResource(R.dimen.thickness_divider),
-                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium))
+            Divider( // menambahkan pemisak antara opsi dan subtotal
+                thickness = dimensionResource(R.dimen.thickness_divider), // ketebalan pemisah
+                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium)) //menambahkan padding bawah 
             )
-            FormattedPriceLabel(
-                subtotal = subtotal,
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(
+            FormattedPriceLabel( // menampilkan label harga ke composable
+                subtotal = subtotal, //meneruskan subtotal ke composable
+                modifier = Modifier 
+                    .align(Alignment.End) // menyelaraskan label harga ke akhir kolom
+                    .padding( // menambahkan padding pada label harga
                         top = dimensionResource(R.dimen.padding_medium),
                         bottom = dimensionResource(R.dimen.padding_medium)
                     )
             )
         }
-        Row(
+        Row( // baris bagian bawah layar untuk tombol cancel dan  next
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(dimensionResource(R.dimen.padding_medium)),
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
-            verticalAlignment = Alignment.Bottom
+                .fillMaxWidth() // lebar maks layar
+                .padding(dimensionResource(R.dimen.padding_medium)), //menambah padding pada baris
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)), // memberi jarak tombol
+            verticalAlignment = Alignment.Bottom // merapihkan elemen vertika; ke bagian bawah baris
         ) {
-            OutlinedButton(
-                modifier = Modifier.weight(1f),
-                onClick = onCancelButtonClicked
+            OutlinedButton( // tombol batal
+                modifier = Modifier.weight(1f), 
+                onClick = onCancelButtonClicked // memanggil kembali saat tombol di klik
             ) {
-                Text(stringResource(R.string.cancel))
+                Text(stringResource(R.string.cancel)) // menampilkan tombol "Cancel"
             }
-            Button(
+            Button( 
                 modifier = Modifier.weight(1f),
-                // the button is enabled when the user makes a selection
-                enabled = selectedValue.isNotEmpty(),
-                onClick = onNextButtonClicked
+                enabled = selectedValue.isNotEmpty(), // tombol aktif jika pilihan dipilih
+                onClick = onNextButtonClicked // memanggil kembali saat tombol di klik
             ) {
-                Text(stringResource(R.string.next))
+                Text(stringResource(R.string.next)) // menampilkan tombol "next"
             }
         }
     }
@@ -106,7 +105,7 @@ fun SelectOptionScreen(
 @Preview
 @Composable
 fun SelectOptionPreview() {
-    CupcakeTheme {
+    CupcakeTheme { // tema cupcake
         SelectOptionScreen(
             subtotal = "299.99",
             options = listOf("Option 1", "Option 2", "Option 3", "Option 4"),
