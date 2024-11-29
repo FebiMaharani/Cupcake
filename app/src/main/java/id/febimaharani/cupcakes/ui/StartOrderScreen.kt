@@ -28,40 +28,40 @@ import id.febimaharani.cupcakes.ui.theme.CupcakeTheme
 
 @Composable
 fun StartOrderScreen( // terdapat column, spacer, image, 
-    quantityOptions: List<Pair<Int, Int>>,
-    onNextButtonClicked: (Int) -> Unit,
+    quantityOptions: List<Pair<Int, Int>>, // daftar pilihan jumlah cupcake
+    onNextButtonClicked: (Int) -> Unit, // menerima jumlah yang dipilih
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.SpaceBetween // menyusun elemen secara vertikal
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
+            horizontalAlignment = Alignment.CenterHorizontally, // menyusun elemen secara horizontal di teengah kolom
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small)) // memberi jarak antar elemen
         ) {
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium))) // menambah ruang kosong di atas gambaar cupcake
             Image( // foto cupcake
                 painter = painterResource(R.drawable.cupcakes),
                 contentDescription = null,
                 modifier = Modifier.width(300.dp)
             )
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
-            Text(
-                text = stringResource(R.string.order_cupcakes),
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium))) // menambah jarak dibawah gambar cupcake
+            Text( // menampilkan judul dan menerapkan typography
+                text = stringResource(R.string.order_cupcakes), 
                 style = MaterialTheme.typography.headlineSmall
             )
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small))) // menambah ruang kosoong di bawah judul
         }
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally, // mengatur elemen secara horizontal
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.padding_medium)
             )
         ) {
-            quantityOptions.forEach { item -> // untuk dari bagian 1- selesai
+            quantityOptions.forEach { item -> // iterasi dari bagian 1- selesai 
                 SelectQuantityButton( 
                     labelResourceId = item.first, 
                     onClick = { onNextButtonClicked(item.second) },
@@ -73,7 +73,7 @@ fun StartOrderScreen( // terdapat column, spacer, image,
 }
 
 @Composable
-fun SelectQuantityButton(
+fun SelectQuantityButton( // fungsi compasable untuk tombol pilihan jumlah cupcake
     @StringRes labelResourceId: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -91,7 +91,7 @@ fun SelectQuantityButton(
 fun StartOrderPreview() {
     CupcakeTheme {
         StartOrderScreen(
-            quantityOptions = DataSource.quantityOptions,
+            quantityOptions = DataSource.quantityOptions, // mengambil jumlah dari DataSource
             onNextButtonClicked = {},
             modifier = Modifier
                 .fillMaxSize()
