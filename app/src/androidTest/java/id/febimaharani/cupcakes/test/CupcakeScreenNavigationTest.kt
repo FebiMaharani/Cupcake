@@ -20,129 +20,126 @@ import java.util.Locale
 
 class CupcakeScreenNavigationTest {
 
-    /**
-     * Note: To access to an empty activity, the code uses ComponentActivity instead of
-     * MainActivity.
-     */
+    // menggunakan ComponenActivity sebagai pengganti MainActivity
     @get:Rule
-    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
+    val composeTestRule = createAndroidComposeRule<ComponentActivity>() // aturan uji Compose Android
 
-    private lateinit var navController: TestNavHostController
+    private lateinit var navController: TestNavHostController // menyiapkan konten
 
     @Before
     fun setupCupcakeNavHost() {
         composeTestRule.setContent {
-            navController = TestNavHostController(LocalContext.current).apply {
-                navigatorProvider.addNavigator(ComposeNavigator())
+            navController = TestNavHostController(LocalContext.current).apply { 
+                navigatorProvider.addNavigator(ComposeNavigator()) // menambahkan navigator compose ke navHost
             }
-            CupcakeApp(navController = navController)
+            CupcakeApp(navController = navController) // memangggil fungsi utama aplikasi dengan navHost
         }
     }
 
     @Test
     fun cupcakeNavHost_verifyStartDestination() {
-        navController.assertCurrentRouteName(CupcakeScreen.Start.name)
+        navController.assertCurrentRouteName(CupcakeScreen.Start.name) // verifikasi layar awal start
     }
 
     @Test
     fun cupcakeNavHost_verifyBackNavigationNotShownOnStartOrderScreen() {
-        val backText = composeTestRule.activity.getString(R.string.back_button)
-        composeTestRule.onNodeWithContentDescription(backText).assertDoesNotExist()
+        val backText = composeTestRule.activity.getString(R.string.back_button) // mendapatkan tombool kembali
+        composeTestRule.onNodeWithContentDescription(backText).assertDoesNotExist() // verifikasi tombol kembali tidak ada di layar awal
     }
 
     @Test
     fun cupcakeNavHost_clickOneCupcake_navigatesToSelectFlavorScreen() {
-        composeTestRule.onNodeWithStringId(R.string.one_cupcake)
-            .performClick()
-        navController.assertCurrentRouteName(CupcakeScreen.Flavor.name)
+        composeTestRule.onNodeWithStringId(R.string.one_cupcake) // cari node dengan ID String 1 cupcake
+            .performClick() // klik node
+        navController.assertCurrentRouteName(CupcakeScreen.Flavor.name) // verifikasi tampilan berhasil ke layar flavor
     }
 
     @Test
-    fun cupcakeNavHost_clickNextOnFlavorScreen_navigatesToPickupScreen() {
-        navigateToFlavorScreen()
-        composeTestRule.onNodeWithStringId(R.string.next)
-            .performClick()
+    fun cupcakeNavHost_clickNextOnFlavorScreen_navigatesToPickupScreen() { 
+        navigateToFlavorScreen() // tampilan pilihan rasa
+        composeTestRule.onNodeWithStringId(R.string.next) // mencari tombol next dengan ID String
+            .performClick() /// klik next
         navController.assertCurrentRouteName(CupcakeScreen.Pickup.name)
-    }
+    } // verifikasi tampilan berhasil ke layar pickup
 
     @Test
     fun cupcakeNavHost_clickBackOnFlavorScreen_navigatesToStartOrderScreen() {
-        navigateToFlavorScreen()
-        performNavigateUp()
-        navController.assertCurrentRouteName(CupcakeScreen.Start.name)
+        navigateToFlavorScreen() // tampilan ke flavor
+        performNavigateUp() // kembali ke layar sebelumnya
+        navController.assertCurrentRouteName(CupcakeScreen.Start.name) // verifikasi tampilan berhasil kembali ke layar start
     }
 
     @Test
     fun cupcakeNavHost_clickCancelOnFlavorScreen_navigatesToStartOrderScreen() {
-        navigateToFlavorScreen()
-        composeTestRule.onNodeWithStringId(R.string.cancel)
-            .performClick()
-        navController.assertCurrentRouteName(CupcakeScreen.Start.name)
+        navigateToFlavorScreen() // tampilan ke layar flavor
+        composeTestRule.onNodeWithStringId(R.string.cancel) // tombol batal dengan ID String
+            .performClick() // klik tombol batal
+        navController.assertCurrentRouteName(CupcakeScreen.Start.name) // verifikasi tampilan kembali ke start 
     }
 
     @Test
     fun cupcakeNavHost_clickNextOnPickupScreen_navigatesToSummaryScreen() {
-        navigateToPickupScreen()
-        composeTestRule.onNodeWithText(getFormattedDate())
-            .performClick()
-        composeTestRule.onNodeWithStringId(R.string.next)
-            .performClick()
-        navController.assertCurrentRouteName(CupcakeScreen.Summary.name)
+        navigateToPickupScreen() // tempilan layar pilihan pickup time.
+        composeTestRule.onNodeWithText(getFormattedDate()) // cari tanggal di node UI
+            .performClick() // klik tanggal
+        composeTestRule.onNodeWithStringId(R.string.next) // cari tanggal berikuutnya dengan ID String
+            .performClick() // klik tanggal
+        navController.assertCurrentRouteName(CupcakeScreen.Summary.name) // verifikasii tampilan berhasil ke summary
     }
 
     @Test
-    fun cupcakeNavHost_clickBackOnPickupScreen_navigatesToFlavorScreen() {
-        navigateToPickupScreen()
-        performNavigateUp()
-        navController.assertCurrentRouteName(CupcakeScreen.Flavor.name)
+    fun cupcakeNavHost_clickBackOnPickupScreen_navigatesToFlavorScreen() { 
+        navigateToPickupScreen() // tampilan layar pilihan taggal pickup
+        performNavigateUp() // tampilan kembali ke layar sebelumnnya
+        navController.assertCurrentRouteName(CupcakeScreen.Flavor.name) // verifikasi berhasil kembali ke layar flavor
     }
 
     @Test
     fun cupcakeNavHost_clickCancelOnPickupScreen_navigatesToStartOrderScreen() {
-        navigateToPickupScreen()
-        composeTestRule.onNodeWithStringId(R.string.cancel)
-            .performClick()
-        navController.assertCurrentRouteName(CupcakeScreen.Start.name)
+        navigateToPickupScreen() // menampilkan ke layar pickup time.
+        composeTestRule.onNodeWithStringId(R.string.cancel) // tombol batal dengan ID String
+            .performClick() // klik batal
+        navController.assertCurrentRouteName(CupcakeScreen.Start.name) // verifikasi kembali ke layar start
     }
 
     @Test
     fun cupcakeNavHost_clickCancelOnSummaryScreen_navigatesToStartOrderScreen() {
-        navigateToSummaryScreen()
-        composeTestRule.onNodeWithStringId(R.string.cancel)
-            .performClick()
-        navController.assertCurrentRouteName(CupcakeScreen.Start.name)
+        navigateToSummaryScreen() // menampilkan ke layer summary
+        composeTestRule.onNodeWithStringId(R.string.cancel) // tombol batal dengan ID String
+            .performClick() // klik batal
+        navController.assertCurrentRouteName(CupcakeScreen.Start.name) // verifikasi tampilan berhasil ke layar start
     }
 
     private fun navigateToFlavorScreen() {
-        composeTestRule.onNodeWithStringId(R.string.one_cupcake)
-            .performClick()
-        composeTestRule.onNodeWithStringId(R.string.chocolate)
-            .performClick()
+        composeTestRule.onNodeWithStringId(R.string.one_cupcake) // mencari node 1 cupcake
+            .performClick() // klik node
+        composeTestRule.onNodeWithStringId(R.string.chocolate) // cari rasa cokklat dengan ID String
+            .performClick() // klik coklat
     }
 
     private fun navigateToPickupScreen() {
-        navigateToFlavorScreen()
-        composeTestRule.onNodeWithStringId(R.string.next)
-            .performClick()
+        navigateToFlavorScreen() // menampilkan layar flavor
+        composeTestRule.onNodeWithStringId(R.string.next) // cari tombol next dengan ID String
+            .performClick() // klik next
     }
 
     private fun navigateToSummaryScreen() {
-        navigateToPickupScreen()
-        composeTestRule.onNodeWithText(getFormattedDate())
-            .performClick()
-        composeTestRule.onNodeWithStringId(R.string.next)
-            .performClick()
+        navigateToPickupScreen() // menampilkan ke layar pickup time
+        composeTestRule.onNodeWithText(getFormattedDate()) // cari tanggal yang di format di node UI
+            .performClick() // klik tanggal
+        composeTestRule.onNodeWithStringId(R.string.next) //cari tombol next dengan ID String
+            .performClick() // klikk next
     }
 
     private fun performNavigateUp() {
-        val backText = composeTestRule.activity.getString(R.string.back_button)
-        composeTestRule.onNodeWithContentDescription(backText).performClick()
+        val backText = composeTestRule.activity.getString(R.string.back_button) // tombol kembali
+        composeTestRule.onNodeWithContentDescription(backText).performClick() // kembali
     }
 
     private fun getFormattedDate(): String {
-        val calendar = Calendar.getInstance()
-        calendar.add(java.util.Calendar.DATE, 1)
-        val formatter = SimpleDateFormat("E MMM d", Locale.getDefault())
-        return formatter.format(calendar.time)
+        val calendar = Calendar.getInstance() //membuat kalender 
+        calendar.add(java.util.Calendar.DATE, 1) // tambah satu hari dari tanggal sekarang
+        val formatter = SimpleDateFormat("E MMM d", Locale.getDefault()) // memforomat tanggal
+        return formatter.format(calendar.time) // mengambil tanggal sebagai string
     }
 }
