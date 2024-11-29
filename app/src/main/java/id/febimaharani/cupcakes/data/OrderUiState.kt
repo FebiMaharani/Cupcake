@@ -1,18 +1,15 @@
 package id.febimaharani.cupcakes.data
 
-/**
- * Data class that represents the current UI state in terms of [quantity], [flavor],
- * [dateOptions], selected pickup [date] and [price]
- */
+// kelas yang menjelaskan status UI quantity, flavor, dateOptions, date, dan price
 data class OrderUiState(
-    /** Selected cupcake quantity (1, 6, 12) */
+    // banyak cupcake (1, 6, 12) */
     val quantity: Int = 0,
-    /** Flavor of the cupcakes in the order (such as "Chocolate", "Vanilla", etc..) */
+    // rasa cupcake 
     val flavor: String = "",
-    /** Selected date for pickup (such as "Jan 1") */
+    // tanggal pickup
     val date: String = "",
-    /** Total price for the order */
+    // total pesanan
     val price: String = "",
-    /** Available pickup dates for the order*/
+    // daftar tanggal pickup
     val pickupOptions: List<String> = listOf()
 )
