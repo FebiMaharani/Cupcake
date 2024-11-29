@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
+// tema terang
 private val LightColors = lightColorScheme(
     primary = md_theme_light_primary,
     onPrimary = md_theme_light_onPrimary,
@@ -47,6 +48,7 @@ private val LightColors = lightColorScheme(
     scrim = md_theme_light_scrim,
 )
 
+// tema gelap
 private val DarkColors = darkColorScheme(
     primary = md_theme_dark_primary,
     onPrimary = md_theme_dark_onPrimary,
@@ -79,34 +81,34 @@ private val DarkColors = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
+// mendefinisikan tema Cupcake
 @Composable
 fun CupcakeTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+ but turned off for training purposes
-    dynamicColor: Boolean = false,
-    content: @Composable () -> Unit
+    darkTheme: Boolean = isSystemInDarkTheme(), // memeriksa sistem dengan darktheme 
+    dynamicColor: Boolean = false, 
+    content: @Composable () -> Unit // konten yang akan di render
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> { // memeriksa warna dinamis untuk android 12+
+            val context = LocalContext.current 
+            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context) // menentukan warna berdasarkan tema
         }
 
-        darkTheme -> DarkColors
-        else -> LightColors
+        darkTheme -> DarkColors // jika darktheme
+        else -> LightColors // jika lighttheme
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            val window = (view.context as Activity).window // mendapatkan aktifitas sekarang
+            window.statusBarColor = colorScheme.primary.toArgb() // mengatur warna sesuai warna primer
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme // menentukan tampilan berdasarkan tema
         }
     }
 
-    MaterialTheme(
+    MaterialTheme( // merapihkan materialtheme berdasarkan warna dan typography
         colorScheme = colorScheme,
-        typography = Typography,
-        content = content
+        typography = Typography, // menerapkan typography
+        content = content 
     )
 }
