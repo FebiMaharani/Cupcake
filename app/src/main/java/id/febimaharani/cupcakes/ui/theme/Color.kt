@@ -2,6 +2,7 @@ package id.febimaharani.cupcakes.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+// Daftar warna UI
 val md_theme_light_primary = Color(0xFF984062)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFFFD9E2)
