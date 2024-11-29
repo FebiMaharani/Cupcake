@@ -2,6 +2,7 @@ package id.febimaharani.cupcakes.data
 
 import id.febimaharani.cupcakes.R
 
+// daftar rasa"flavor"
 object DataSource {
     val flavors = listOf(
         R.string.vanilla,
@@ -11,6 +12,7 @@ object DataSource {
         R.string.coffee
     )
 
+    // daftar pilihan jumlah cupcake
     val quantityOptions = listOf(
         Pair(R.string.one_cupcake, 1),
         Pair(R.string.six_cupcakes, 6),
