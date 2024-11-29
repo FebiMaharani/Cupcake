@@ -9,4 +9,4 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.onNodeWithStringId(
     @StringRes id: Int
-): SemanticsNodeInteraction = onNodeWithText(activity.getString(id))
+): SemanticsNodeInteraction = onNodeWithText(activity.getString(id)) // mengembalikan node berdasarkan teks dari ID String
