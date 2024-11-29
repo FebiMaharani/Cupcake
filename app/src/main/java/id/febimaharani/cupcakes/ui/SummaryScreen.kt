@@ -25,61 +25,51 @@ import id.febimaharani.cupcakes.data.OrderUiState
 import id.febimaharani.cupcakes.ui.components.FormattedPriceLabel
 import id.febimaharani.cupcakes.ui.theme.CupcakeTheme
 
-/**
- * This composable expects [orderUiState] that represents the order state, [onCancelButtonClicked]
- * lambda that triggers canceling the order and passes the final order to [onSendButtonClicked]
- * lambda
- */
 @Composable
 fun OrderSummaryScreen(
-    orderUiState: OrderUiState,
-    onCancelButtonClicked: () -> Unit,
-    onSendButtonClicked: (String, String) -> Unit,
+    orderUiState: OrderUiState, // orderUiState menampilkan status pesanan.
+    onCancelButtonClicked: () -> Unit, // pembatalan pesanan
+    onSendButtonClicked: (String, String) -> Unit, // mengirimkan ringkasan pesanan akhir
     modifier: Modifier = Modifier
 ) {
-    val resources = LocalContext.current.resources
+    val resources = LocalContext.current.resources // mendapatkan sumber daya dari konteks lokal
 
-    val numberOfCupcakes = resources.getQuantityString(
+    val numberOfCupcakes = resources.getQuantityString( // mendapatkan string jumlah cupcake
         R.plurals.cupcakes,
         orderUiState.quantity,
         orderUiState.quantity
     )
-    //Load and format a string resource with the parameters.
-    val orderSummary = stringResource(
+    val orderSummary = stringResource( // ringkasan pesanan
         R.string.order_details,
         numberOfCupcakes,
         orderUiState.flavor,
         orderUiState.date,
         orderUiState.quantity
     )
-    val newOrder = stringResource(R.string.new_cupcake_order)
-    //Create a list of order summary to display
-    val items = listOf(
-        // Summary line 1: display selected quantity
-        Pair(stringResource(R.string.quantity), numberOfCupcakes),
-        // Summary line 2: display selected flavor
-        Pair(stringResource(R.string.flavor), orderUiState.flavor),
-        // Summary line 3: display selected pickup date
-        Pair(stringResource(R.string.pickup_date), orderUiState.date)
+    val newOrder = stringResource(R.string.new_cupcake_order) // mendapatkan string subjek pesanan baru
+    val items = listOf( // daftar pesanan yang akan tampil
+        Pair(stringResource(R.string.quantity), numberOfCupcakes), // baris ringkasan ke-1
+        Pair(stringResource(R.string.flavor), orderUiState.flavor), // baris ke-2 untuk rasa
+        Pair(stringResource(R.string.pickup_date), orderUiState.date) // baris ke-3 untuk pickup date
     )
 
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.SpaceBetween // menyusun elemen secara vertikal
     ) {
         Column(
-            modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
+            modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium)), 
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small)) // jarak antar elemen
         ) {
-            items.forEach { item ->
-                Text(item.first.uppercase())
-                Text(text = item.second, fontWeight = FontWeight.Bold)
-                Divider(thickness = dimensionResource(R.dimen.thickness_divider))
+            items.forEach { item -> // iterasi setiap item ringkasan order
+                Text(item.first.uppercase()) // mennampilkan label dengan huruf kapital
+                Text(text = item.second, fontWeight = FontWeight.Bold) // menampilkan label dengan huruf tebal
+                Divider(thickness = dimensionResource(R.dimen.thickness_divider)) 
             }
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small))) // memberikan jarak di bawah daftar ringkasan 
             FormattedPriceLabel(
                 subtotal = orderUiState.price,
-                modifier = Modifier.align(Alignment.End)
+                modifier = Modifier.align(Alignment.End) // merapihkan label harga ke kolom akhir
             )
         }
         Row(
@@ -92,13 +82,13 @@ fun OrderSummaryScreen(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = { onSendButtonClicked(newOrder, orderSummary) }
                 ) {
-                    Text(stringResource(R.string.send))
+                    Text(stringResource(R.string.send)) // menampilkan tombol "Share"
                 }
                 OutlinedButton(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = onCancelButtonClicked
                 ) {
-                    Text(stringResource(R.string.cancel))
+                    Text(stringResource(R.string.cancel)) // menampilkan teks"cancel"
                 }
             }
         }
@@ -110,7 +100,7 @@ fun OrderSummaryScreen(
 fun OrderSummaryPreview() {
     CupcakeTheme {
         OrderSummaryScreen(
-            orderUiState = OrderUiState(0, "Test", "Test", "$300.00"),
+            orderUiState = OrderUiState(0, "Test", "Test", "$300.00"), // contoh status pesanan pratinjau
             onSendButtonClicked = { subject: String, summary: String -> },
             onCancelButtonClicked = {},
             modifier = Modifier.fillMaxHeight()
